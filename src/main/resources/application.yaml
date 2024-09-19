@@ -1,0 +1,13 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/ecommerce
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+jwt:
+  signerKey: "vBsGNGftcdp1lFPk8/rRPmP6UUdBgxEvjST8owijFtyRPSvnPKXQNVr9A7lEYa4T"
