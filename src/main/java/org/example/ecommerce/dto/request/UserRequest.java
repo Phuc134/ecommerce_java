@@ -19,5 +19,4 @@ public class UserRequest {
     String firstName;
     String lastName;
     String password;
-    Set<String> roles;
 }

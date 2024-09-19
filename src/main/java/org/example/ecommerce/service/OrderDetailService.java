@@ -12,6 +12,7 @@ import org.example.ecommerce.mapper.OrderDetailMapper;
 import org.example.ecommerce.repository.OrderDetailRepository;
 import org.example.ecommerce.repository.OrderRepository;
 import org.example.ecommerce.repository.ProductRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,6 +55,7 @@ public class OrderDetailService {
         return orderDetailRepository.findByOrder_Id(orderId).stream().map(orderDetailMapper::toOrderDetailResponse).toList();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public  void deleteOrderDetail(String id) {
         var orderDetail = orderDetailRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.ORDER_DETAIL_NOT_FOUND));
         orderDetailRepository.delete(orderDetail);

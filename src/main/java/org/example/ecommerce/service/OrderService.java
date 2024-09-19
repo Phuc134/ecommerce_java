@@ -10,6 +10,7 @@ import org.example.ecommerce.exception.ErrorCode;
 import org.example.ecommerce.mapper.OrderMapper;
 import org.example.ecommerce.repository.OrderRepository;
 import org.example.ecommerce.repository.UserRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -46,6 +47,7 @@ public class OrderService {
         return orderRepository.findByUser_IdAndActiveTrue(userId).stream().map(orderMapper::toOrderResponse).toList();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteOrder(String id) {
         var order = orderRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
         order.setActive(false);

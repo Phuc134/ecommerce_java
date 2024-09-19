@@ -28,6 +28,9 @@ public class UserService {
             throw new AppException(ErrorCode.USER_EXIST);
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        HashSet<String> roles = new HashSet<>();
+        roles.add("USER");
+        user.setRoles(roles);
         user = userRepository.save(user);
         return userMapper.toUserResponse(user);
     }

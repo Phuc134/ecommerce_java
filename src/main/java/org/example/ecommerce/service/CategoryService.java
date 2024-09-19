@@ -6,6 +6,7 @@ import org.example.ecommerce.dto.request.CategoryRequest;
 import org.example.ecommerce.dto.response.CategoryResponse;
 import org.example.ecommerce.mapper.CategoryMapper;
 import org.example.ecommerce.repository.CategoryRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 public class CategoryService {
     CategoryRepository categoryRepository;
     CategoryMapper categoryMapper;
+    @PreAuthorize("hasRole('ADMIN')")
     public CategoryResponse create(CategoryRequest request) {
         var category = categoryMapper.toCategory(request);
         category = categoryRepository.save(category);
@@ -32,6 +34,7 @@ public class CategoryService {
         return categoryMapper.toCategoryResponse(category);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public CategoryResponse update(String id, CategoryRequest request){
         var category = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
@@ -40,6 +43,7 @@ public class CategoryService {
         return categoryMapper.toCategoryResponse(category);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(String id) {
         categoryRepository.deleteById(id);
     }

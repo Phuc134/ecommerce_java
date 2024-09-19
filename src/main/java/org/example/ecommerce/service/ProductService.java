@@ -11,6 +11,7 @@ import org.example.ecommerce.exception.ErrorCode;
 import org.example.ecommerce.mapper.ProductMapper;
 import org.example.ecommerce.repository.CategoryRepository;
 import org.example.ecommerce.repository.ProductRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class ProductService {
     ProductMapper productMapper;
     CategoryRepository categoryRepository;
     ProductRepository productRepository;
+    @PreAuthorize("hasRole('ADMIN')")
     public ProductResponse create(ProductRequest request) {
         var product = productMapper.toProduct(request);
         var category = categoryRepository.findById(request.getCategoryId())
@@ -37,7 +39,7 @@ public class ProductService {
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
         return productMapper.toProductResponse(product);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteProduct(String id) {
         var product = productRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
